@@ -16,10 +16,10 @@ class CreateBooksTable extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('ISBN');
+            $table->bigInteger('ISBN')->unique();
             $table->foreignId('author_id')->constrained('authors');
-            $table->date('publish_year');
-            $table->double('rate');
+            $table->date('publish_date');
+            $table->double('rate')->default(0.00);
             $table->integer('pages');
             $table->timestamps();
         });

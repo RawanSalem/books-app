@@ -18,7 +18,7 @@ class BookFactory extends Factory
             'name' => $this->faker->words(3, true),
             'ISBN' => $this->faker->numberBetween(1000000000, 9999999999),
             'author_id' => Author::factory()->create()->id,
-            'publish_year' => $this->faker->date(),
+            'publish_date' => $this->faker->date(),
             'rate' => $this->faker->randomFloat(2, 0, 5),
             'pages' => $this->faker->numberBetween(50, 600),
         ];

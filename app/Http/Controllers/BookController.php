@@ -4,61 +4,58 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all books list.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
     public function index()
     {
-        //
+        $books = Book::select(['id', 'name' ,'ISBN', 'publish_date', 'rate', 'pages', 'author_id'])->with([
+            'author' => function ($q) {
+                return $q->select(['id', 'name']);
+        }])->paginate(5); 
+
+        return BookResource::collection($books);
     }
 
+
     /**
-     * Show the form for creating a new resource.
+     * Show a specified book by id.
      *
-     * @return \Illuminate\Http\Response
+     * @param  $id
+     * @return BookResource
      */
-    public function create()
+    public function show($id)
     {
-        //
+        $book = Book::select(['id', 'name', 'ISBN', 'publish_date', 'rate', 'pages', 'author_id'])->with([
+            'author' => function ($q) {
+                return $q->select(['id', 'name']);
+            }
+        ])->where('id', $id)->get();
+
+        return new BookResource($book);
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created book.
      *
-     * @param  \App\Http\Requests\StoreBookRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  StoreBookRequest  $request
+     * @return BookResource
      */
     public function store(StoreBookRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Book $book)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Book $book)
-    {
-        //
+        $book = Book::create($request->validated());
+        $book->refresh();
+        return new BookResource($book);
     }
 
     /**

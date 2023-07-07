@@ -15,7 +15,7 @@ class AuthorFactory extends Factory
     {
         return [
             'name' => $this->faker->words(3, true),
-            'bio' => $this->faker->sentences(4, true),
+            'bio' => $this->faker->sentences(2, true),
             'followers' => $this->faker->numberBetween(10, 500)
         ];
     }
