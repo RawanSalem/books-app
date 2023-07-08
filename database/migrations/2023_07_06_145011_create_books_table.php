@@ -21,6 +21,7 @@ class CreateBooksTable extends Migration
             $table->date('publish_date');
             $table->double('rate')->default(0.00);
             $table->integer('pages');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

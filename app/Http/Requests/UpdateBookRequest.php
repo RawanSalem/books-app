@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\CustomFormRequest;
 
-class UpdateBookRequest extends FormRequest
+class UpdateBookRequest extends CustomFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateBookRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'         => 'string|max:60',
+            'author_id'    => 'exists:authors,id',
+            'ISBN'         => 'digits:10|unique:books',
+            'publish_date' => 'date',
+            'pages'        => 'integer',
         ];
     }
 }

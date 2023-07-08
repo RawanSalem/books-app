@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -30,18 +31,16 @@ class BookController extends Controller
     /**
      * Show a specified book by id.
      *
-     * @param  $id
+     * @param  Book $book
      * @return BookResource
      */
-    public function show($id)
+    public function show(Book $book)
     {
-        $book = Book::select(['id', 'name', 'ISBN', 'publish_date', 'rate', 'pages', 'author_id'])->with([
-            'author' => function ($q) {
-                return $q->select(['id', 'name']);
-            }
-        ])->where('id', $id)->get();
-
-        return new BookResource($book);
+        return new BookResource(
+            $book->load(['author' => function ($q) {
+                        return $q->select(['id', 'name']);
+                    }])
+        );
     }
 
 
@@ -59,25 +58,27 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a specified book by id. 
      *
-     * @param  \App\Http\Requests\UpdateBookRequest  $request
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
+     * @param  UpdateBookRequest  $request
+     * @param  Book $book
+     * @return BookResource
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+        $book->update($request->validated());
+        return new BookResource($book);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a specified book.
      *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
+     * @param  Book  $book
+     * @return JsonResponse
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return responder()->success()->respond(Response::HTTP_OK);
     }
 }
