@@ -18,6 +18,7 @@ class CreateAuthorsTable extends Migration
             $table->string('name');
             $table->string('bio');
             $table->integer('followers');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
