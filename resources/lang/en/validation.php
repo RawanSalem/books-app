@@ -142,8 +142,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'ISBN' => [
+            'unique' => 'invalid ISBN, already exists',
         ],
     ],
 
