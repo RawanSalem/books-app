@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Flugg\Responder\ResponderServiceProvider::class,
+        BenSampo\Enum\EnumServiceProvider::class,
         /*
          * Package Service Providers...
          */

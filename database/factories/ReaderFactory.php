@@ -6,7 +6,7 @@ use App\Enums\GenderType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AuthorFactory extends Factory
+class ReaderFactory extends Factory
 {
     /**
      * Define the model's default state.
