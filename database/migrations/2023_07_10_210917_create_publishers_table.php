@@ -1,11 +1,10 @@
 <?php
 
-use App\Enums\GenderType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReadersTable extends Migration
+class CreatePublishersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +13,13 @@ class CreateReadersTable extends Migration
      */
     public function up()
     {
-        Schema::create('readers', function (Blueprint $table) {
+        Schema::create('publishers', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->foreignId('user_id')->constrained('users')->nullable();
             $table->string('name');
             $table->integer('followers')->default(0);
-            $table->date('birth_date')->nullable();
-            $table->string('country')->nullable();
+            $table->date('established_date')->nullable();
             $table->text('bio')->nullable();
-            $table->tinyInteger('gender')->default(GenderType::NOT_SPECIFIED);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -35,6 +32,6 @@ class CreateReadersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('readers');
+        Schema::dropIfExists('publishers');
     }
 }

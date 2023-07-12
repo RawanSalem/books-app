@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Reader extends Model
+class Publisher extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
 
     /**
-     * every reader belongs To a user
+     * Publisher belongs To a user
      * @return BelongsTo
      */
     public function user()
