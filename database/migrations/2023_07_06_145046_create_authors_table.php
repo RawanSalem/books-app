@@ -18,7 +18,7 @@ class CreateAuthorsTable extends Migration
             $table->id()->autoIncrement();
             $table->foreignId('user_id')->constrained('users')->nullable();
             $table->string('name');
-            $table->integer('followers');
+            $table->integer('followers')->default(0);
             $table->date('birth_date')->nullable();
             $table->string('country')->nullable();
             $table->text('bio')->nullable();
