@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Models\Author;
+use App\Models\Category;
+use App\Models\Publisher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
@@ -25,10 +28,20 @@ class Book extends Model
 
     /**
      * a book belongs To a publisher
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function publisher()
     {
         return $this->belongsTo(Publisher::class);
+    }
+
+
+    /**
+     * a book can have one or more categories
+     * @return BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
