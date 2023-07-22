@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\BookFilters;
+use App\Http\Requests\BookSearchRequest;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
@@ -17,12 +19,12 @@ class BookController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(BookSearchRequest $request, BookFilters $filters)
     {
         $books = Book::select(['id', 'name' ,'ISBN', 'publish_date', 'rate', 'pages', 'author_id'])->with([
             'author' => function ($q) {
                 return $q->select(['id', 'name']);
-        }])->paginate(5); 
+        }])->filter($filters)->paginate(20); 
 
         return BookResource::collection($books);
     }
